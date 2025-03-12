@@ -28,6 +28,14 @@ spec:
       ports:
         - containerPort: 8000
       lifecycle:
+        postStart:
+          exec:
+            command:
+              [
+                "/bin/sh",
+                "-c",
+                "/bin/rm -fv /usr/share/nginx/html/index.html; ln -svf /homework/index.html /usr/share/nginx/html/",
+              ]
         preStop:
           exec:
             command: ["/bin/sh", "-c", "/bin/rm -fv /homework/index.html"]
