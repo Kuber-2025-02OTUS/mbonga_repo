@@ -6,6 +6,6 @@ Don't forget to enable Ingress in your minikube
 
 ## Files
 
-`setup.sh` --- to configure your cluster before applying services
-`apply.sh` --- to apply services
-`wipeout.sh` --- to clean up your cluster after all
+| `setup.sh` | to configure your cluster before applying services |
+| `apply.sh` | to apply services |
+| `wipeout.sh` | to clean up your cluster after all |
