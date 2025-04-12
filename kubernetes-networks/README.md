@@ -1,8 +1,11 @@
 # Pre-requisites
 
-Don't forget to enable Ingress in your minikube
+Don't forget to enable [Ingress](https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/) in your minikube
 
-`minikube addons enable ingress`
+-   To enable
+    `minikube addons enable ingress`
+-   To check
+    `kubectl get pods -n ingress-nginx`
 
 ## Files
 
