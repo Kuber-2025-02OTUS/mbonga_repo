@@ -6,7 +6,8 @@ Don't forget to enable [Ingress](https://kubernetes.io/docs/tasks/access-applica
     `minikube addons enable ingress`
 -   To check
     `kubectl get pods -n ingress-nginx`
-    `minikube tunnel` <-- use this if you're using MacOS
+-   use this if you're using MacOS
+    `minikube tunnel`
 
 ## Files
 
