@@ -33,7 +33,7 @@ spec:
         - name: webserver
           image: nginx:1.16.1
           ports:
-            - containerPort: 8000
+            - containerPort: 80
           volumeMounts:
             - mountPath: /homework
               name: wwwroot
