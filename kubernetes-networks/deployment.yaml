@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-networks
+  namespace: homework
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: homework
+                    operator: In
+                    values:
+                      - "true"
+      containers:
+        - name: webserver
+          image: nginx:1.16.1
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - mountPath: /homework
+              name: wwwroot
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  [
+                    "/bin/sh",
+                    "-c",
+                    "/bin/rm -fv /usr/share/nginx/html/index.html; ln -svf /homework/index.html /usr/share/nginx/html/",
+                  ]
+            preStop:
+              exec:
+                command: ["/bin/sh", "-c", "/bin/rm -fv /homework/index.html"]
+          readinessProbe:
+            httpGet:
+              path: /index.html
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 5
+      volumes:
+        - name: wwwroot
+          emptyDir: {}
+      initContainers:
+        - name: init-index
+          image: busybox:1.27.2
+          volumeMounts:
+            - mountPath: /init
+              name: wwwroot
+          command:
+            [
+              "/bin/sh",
+              "-c",
+              '(echo -e "<html><head><title>Init date...</title></head><body>";date; echo -e "</body></html>") > /init/index.html',
+            ]
